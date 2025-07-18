@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UOW Room Booking System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Zen+Old+Mincho' rel='stylesheet'>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+      .custom-navbar {
+        background-color: #05153E; /* Color for navbar background */
+      }
+
+      .custom-navbar .navbar-nav .nav-link {
+        color:#d3d3d3; /* Color for navbar links */
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 1rem;
+        font-family: 'Roboto';
+      }
+      
+      .custom-navbar .navbar-nav .active,
+      .custom-navbar .navbar-nav .nav-link:active,
+      .custom-navbar .navbar-nav .nav-link:hover,
+      .custom-navbar .navbar-nav .nav-link:focus {
+        color: #FFAF66; /* Color for active navbar link */
+      }
+
+      .custom-navbar .navbar-brand {
+        color:#d3d3d3; /* Color for navbar brand */
+        font-family: 'Zen Old Mincho';
+        font-size: 2rem;
+      }
+
+      .current-date {
+        color: #37447E;
+        font-family: 'Montserrat';
+        font-weight: bolder;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 10px;
+        text-shadow: 1px 0 #37447E;
+        font-size: larger;
+      }
+      
+      .current-month{
+        font-size: large; background-color: whitesmoke; border: 3px solid #D9D9D9; border-width: 0px 1vw; border-top-width: 10px;
+      }
+
+      .price-list p {
+        font-family: 'Montserrat', monospace;
+        margin-bottom: 0px;
+        color: #37447E;
+      }
+
+      .detail-color {
+        display: table-cell;
+        margin-left: 10px;
+        border-radius: 6px;
+        padding: 20px;
+        width: 0.5%;
+      }
+
+      .color-detail {
+        display: table-cell;
+        vertical-align: middle;
+        width: 5%;
+        padding-left: 10px;
+      }
+
+      .date-table {
+        background: white;
+        color: black;
+        border: 1px solid #D9D9D9;
+        border-collapse: collapse;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+         
+      .date-table th,
+      .date-table td {
+        font-weight: bold;
+        text-align: right;
+        border: 1px solid #D9D9D9;
+        border-collapse: collapse;
+
+      }
+
+      .date-table td:hover{
+        background-color: #FFAF66;
+        cursor:default;
+        transition: 0.1s;
+      }
+
+      .selected-date {
+        background-color: #FFAF66;
+      }
+
+
+      .icons {
+        display: flex;
+        width: fit-content;
+        margin: 10px;
+        padding: 0px;
+        border-radius: 8px;
+        box-shadow: 5px 5px 8px #888888;
+        box-sizing: border-box;
+
+      }
+
+      .icons .buttons {
+        display: inline-block;
+        border: 1px solid white;
+        padding: 8px 10px;
+        border-radius: 8px;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+
+      .icons .buttons:hover {
+        background-color: #d3d3d3;
+        border: 1px solid #d3d3d3;
+        cursor: default;
+      }
+
+      .schedule-table {
+        background: white;
+        color: black;
+        border: 1px solid #4e4e4e;
+        border-collapse: collapse;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+      .schedule-table th {
+        font-weight: bold;
+        text-align: center;
+        border: 1px solid #4e4e4e;
+        border-collapse: collapse;
+        padding: 8px 20px;
+        color: #37447E;
+
+      }
+
+      .schedule-table td {
+        font-weight: bold;
+        text-align: right;
+        border: 1px solid #4e4e4e;
+        border-collapse: collapse;
+        padding: 8px 20px;
+      }
+
+      .green { background-color: #1CEC17; }
+
+      .green:hover {
+        background-color:#039b00;
+        transition: 0.1s;
+      }
+
+      .green-selected {
+        background-color: #027c00;
+      }
+
+      .red { background-color: #EC1717; }
+      .blue { background-color: #355DEB; }
+
+      .next-button {
+        color:#0038F5;
+        background-color: white;
+        border-color: #0038F5;
+        box-shadow: 5px 5px 8px #888888;
+        margin-top: 10px;
+        margin-right: 9.5em;
+      }
+
+      .price {
+        margin-top: 15px;
+        margin-right: 5px;
+        text-align: right;
+        max-width: 50px;
+      }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img class="d-inline-block align-middle" src="https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/Shield_of_the_University_of_Wollongong.svg/195px-Shield_of_the_University_of_Wollongong.svg.png" width="38"/>
+            UOW Room Booking System
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Staff</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Students</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
+    <!-- Main Content Section -->
+    <div class="container-fluid mt-2">
+        <div class="row">
+          <div class="col-3">
+            <p class="current-date">js not working</p>
+            <p style="color:#37447E;">Go to Date:</p>
+            <div style="background-color: #D9D9D9; height: 280px; width:270px">
+              <div style="text-align: center;">
+                <p class="current-month">
+                  js not working
+                </p>
+              </div>
+              <table id="date-table" class="date-table" bgcolor="lightgrey" align="center" cellspacing="3vw" cellpadding="3vw" style="margin-top: 0px">
+                <thead>
+                    <tr>
+                        <th style="color: red;">
+                            Sun</th>
+                        <th>
+                            Mon</th>
+                        <th>
+                            Tue</th>
+                        <th>
+                            Wed</th>
+                        <th>
+                            Thu</th>
+                        <th>
+                            Fri</th>
+                        <th style="color: red;">
+                            Sat</th>
+                    </tr>
+                </thead>
+         
+                <tbody>
+                    <tr>
+                        <td style="color:#ffc8c8;">31</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td style="color: red;">6</td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td style="color: red;">7</td>
+                        <td>8</td>
+                        <td>9</td>
+                        <td>10</td>
+                        <td>11</td>
+                        <td>12</td>
+                        <td style="color: red;">13</td>
+                    </tr>
+                    <tr>
+                        <td style="color: red;">14</td>
+                        <td>15</td>
+                        <td>16</td>
+                        <td>17</td>
+                        <td>18</td>
+                        <td>19</td>
+                        <td style="color: red;">20</td>
+                    </tr>
+                    <tr>
+                        <td style="color: red;">21</td>
+                        <td>22</td>
+                        <td>23</td>
+                        <td>24</td>
+                        <td>25</td>
+                        <td>26</td>
+                        <td style="color: red;">27</td>
+                    </tr>
+                    <tr>
+                        <td style="color: red;">28</td>
+                        <td>29</td>
+                        <td>30</td>
+                        <td style="color:#d3d3d3;">1</td>
+                        <td style="color:#d3d3d3;">2</td>
+                        <td style="color:#d3d3d3;">3</td>
+                        <td style="color:#ffc8c8;">4</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#ffc8c8;">5</td>
+                        <td style="color:#d3d3d3;">6</td>
+                        <td style="color:#d3d3d3;">7</td>
+                        <td style="color:#d3d3d3;">8</td>
+                        <td style="color:#d3d3d3;">9</td>
+                        <td style="color:#d3d3d3;">10</td>
+                        <td style="color:#ffc8c8;">11</td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row price-list">
+              <div class="icons">
+                <div class="buttons" id="prev" style="border-right-color: #D9D9D9; border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                  <span>&lt;</span>
+                </div>
+                <div class="buttons" id="next"style="border-left-color: #D9D9D9; border-top-left-radius: 0px; border-bottom-left-radius: 0px;">
+                  <span>&gt;</span>
+                </div>
+              </div>
+              <p style="margin-bottom: 3px;">Price List:</p>
+              <p>Common Room     = $3</p>
+              <p>Deluxe Room     = $6</p>
+              <p>Privacy Pod     = $1</p>
+              <p>Conference Room = $12</p>
+              <div style="display: table; border-spacing: 0 10px;">
+                <div style="display: table-row;">
+                  <div class="detail-color" style="background-color: #1CEC17;"></div>
+                  <div class="color-detail">
+                    <p>Available Slot</p>
+                  </div>
+                </div>
+                <div style="display: table-row;">
+                  <div class="detail-color" style="background-color: #EC1717;"></div>
+                  <div class="color-detail">
+                    <p>Unavailable</p>
+                  </div>
+                </div>
+                <div style="display: table-row;">
+                  <div class="detail-color" style="background-color: #355DEB;"></div>
+                  <div class="color-detail">
+                    <p>Your Booking</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-9">
+            <br/>
+            <br/>
+            <p style="color: #37447E;">Select time slot:</p>
+            <table border="1" class="schedule-table" id="schedule-table">
+              <tr>
+                <th>Space</th>
+                <th>08.00</th>
+                <th>09.00</th>
+                <th>10.00</th>
+                <th>11.00</th>
+                <th>12.00</th>
+                <th>13.00</th>
+                <th>14.00</th>
+                <th>15.00</th>
+                <th>16.00</th>
+                <th>17.00</th>
+                <th>18.00</th>
+              </tr>
+              <tr>
+                <!--Room types-->
+              </tr>
+            </table>
+            <button type="button" class="btn btn-primary float-end next-button">Next</button>
+            <input class="price float-end" type="text" id="price" name="price" value=0 disabled>
+            <p class="float-end" style="margin-top: 17px; margin-right: 5px;">$</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    
+</body>
+<script>
+  //Schedule js
+  const price = document.getElementById('price');
+  const roomTypes = ['Common Room 01', 'Common Room 02', 'Common Room 03', 'Deluxe Room 01', 'Deluxe Room 02', 'Deluxe Room 03', 'Privacy Pod 01', 'Privacy Pod 02', 'Privacy Pod 03', 'Conference Room 01', 'Conference Room 02'];
+  const timingList = ['NaN', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18']
+
+  function addRoomRow(roomType){
+    const table = document.getElementById('schedule-table');
+    const row = table.insertRow();
+    const cell = row.insertCell(0);
+    cell.textContent = roomType;
+
+    for (let i = 1; i <= 11; i++) {
+      const timeSlotCell = row.insertCell(i);
+      const randomValue = Math.floor(Math.random() * 3); //0 1 2
+      const colorClass = (randomValue == 0) ? 'red' : 'green';
+      timeSlotCell.classList.add(colorClass); 
+      timeSlotCell.textContent = `${roomType.split(' ')[0]}-${timingList[i]}`;
+      timeSlotCell.style.color = 'transparent';
+      timeSlotCell.style.fontSize = '0';
+      timeSlotCell.style.lineHeight = '0';
+    }
+  }
+
+  roomTypes.forEach(roomType => {
+    addRoomRow(roomType);
+  })
+
+  document.querySelectorAll('#schedule-table tr:not(:first-child)').forEach(function(row) {
+      // Get all the td elements in the row except the first one
+      let tds = Array.from(row.cells).slice(1);
+
+      // Iterate over the td elements
+      tds.forEach(td => {
+          td.addEventListener("click", () => {
+              if (td.classList.contains('green')) {
+                td.className = 'green-selected';
+                let leftMostTd = row.cells[0]; // This assumes the first cell is always a td
+                let currentPrice = parseInt(price.value);
+                if (leftMostTd.textContent.includes('Common')) {
+                  price.value = currentPrice + 3;
+                }
+                else if (leftMostTd.textContent.includes('Deluxe')) {
+                  price.value = currentPrice + 6;
+                }
+                else if (leftMostTd.textContent.includes('Privacy')) {
+                  price.value = currentPrice + 1;
+                }
+                else if (leftMostTd.textContent.includes('Conference')) {
+                  price.value = currentPrice + 12;
+                }
+              }
+              else if (td.classList.contains('green-selected')){
+                td.className = 'green';
+                let leftMostTd = row.cells[0]; // This assumes the first cell is always a td
+                let currentPrice = parseInt(price.value);
+                if (leftMostTd.textContent.includes('Common')) {
+                  price.value = currentPrice - 3;
+                }
+                else if (leftMostTd.textContent.includes('Deluxe')) {
+                  price.value = currentPrice - 6;
+                }
+                else if (leftMostTd.textContent.includes('Privacy')) {
+                  price.value = currentPrice - 1;
+                }
+                else if (leftMostTd.textContent.includes('Conference')) {
+                  price.value = currentPrice - 12;
+                }
+              }
+          });
+      });
+  });
+
+  //Calendar js
+  const prevNextIcon = document.querySelectorAll(".icons .buttons"),
+  currentDate = document.querySelector(".current-date"),
+  currentMonth = document.querySelector(".current-month");
+
+  let date = new Date(),
+  currYear = date.getFullYear(),
+  currMonth = date.getMonth();
+  currDay = date.getDay();
+  currDate = date.getDate();
+  
+  const months = ["January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"];
+
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  currentMonth.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentMonth text
+  currentDate.innerText = `${days[currDay]}, ${months[currMonth]} ${currDate} ${currYear}`
+
+  function randomizeSchedule() {
+    document.querySelectorAll('#schedule-table tr:not(:first-child)').forEach(function(row) {
+      // Get all the td elements in the row except the first one
+      let tds = Array.from(row.cells).slice(1);
+
+      // Iterate over the td elements
+      tds.forEach(function(td) {
+        const randomValue = Math.floor(Math.random() * 3);
+        const colorClass = (randomValue === 0) ? 'red' : 'green';
+        td.className = colorClass;
+      });
+    });
+    price.value = 0;
+
+  }
+
+  prevNextIcon.forEach(icon => { // getting prev and next icons
+      icon.addEventListener("click", () => { // adding click event on both icons
+          // if clicked icon is previous icon then decrement current month by 1 else increment it by 1
+          currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+          if(currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11
+              // creating a new date of current year & month and pass it as date value
+              date = new Date(currYear, currMonth, new Date().getDate());
+              currDay = date.getDay();
+              currYear = date.getFullYear(); // updating current year with new date year
+              currMonth = date.getMonth(); // updating current month with new date month
+          } else {
+              date = new Date(); // pass the current date as date value
+          }
+          currentMonth.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentMonth text
+
+          //Randomize schedule
+          randomizeSchedule();
+      });
+  });
+
+  document.querySelectorAll('#date-table tbody tr').forEach(function(row) {
+      let tds = Array.from(row.cells);
+      // Iterate over the td elements
+      tds.forEach(td => {
+          td.addEventListener("click", () => {
+            document.querySelectorAll('#date-table td').forEach(cell => {
+                cell.classList.remove('selected-date');
+            });
+            td.classList.add('selected-date');
+            randomizeSchedule();
+      })
+    })
+  });
+</script>
+</html>
