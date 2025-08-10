@@ -1,0 +1,194 @@
+/* SlotCalendar.css */
+.current-date {
+  color: #37447E;
+  font-family: 'Montserrat';
+  font-weight: bolder;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  font-size: larger;
+}
+
+.current-month {
+  font-size: large;
+  background-color: whitesmoke;
+  border: 3px solid #D9D9D9;
+  border-width: 0px 1vw;
+  border-top-width: 10px;
+}
+
+.date-table, .schedule-table {
+  background: white;
+  color: black;
+  border: 1px solid #D9D9D9;
+  border-collapse: collapse;
+}
+
+.date-table td:hover {
+  background-color: #FFAF66;
+  cursor: pointer;
+}
+
+.green {
+  background-color: #1CEC17;
+  cursor: pointer;
+}
+
+.green:hover {
+  background-color: #039b00;
+}
+
+.green-selected {
+  background-color: #027c00;
+}
+
+.red {
+  background-color: #EC1717;
+}
+
+.blue {
+  background-color: #355DEB;
+}
+
+/*schedule table*/
+.schedule-table th, .schedule-table td {
+  padding: 14px 28px;
+  font-size: 0.8rem; 
+  text-align: center;
+  border: 1px solid #4e4e4e;
+}
+
+/* Container for next button */
+.next-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+/* next button design */
+.next-button {
+  color: #0038F5;
+  background-color: white;
+  border: 2px solid #0038F5;
+  box-shadow: 5px 5px 8px #888888;
+  padding: 6px 16px;
+}
+
+.table-container {
+  max-height: 70vh;  /* Limits table height */
+  overflow-y: auto;
+}
+
+/* change month arrow*/
+.calendar-header {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px; /* left arrow | title | right arrow */
+  align-items: center;
+  gap: 6px;
+  background-color: whitesmoke;
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+
+.cal-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.cal-arrow {
+  border: none;
+  background-color: #0038F5;
+  color: #fff;
+  height: 28px;
+  width: 28px;
+  line-height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  /*center the arrow on the box*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cal-arrow:hover { background-color: #002dd4; }
+
+/* Additional styles for updated calendar */
+.calendar-cell {
+  padding: 6px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.calendar-cell.today {
+  border: 2px solid #0038F5;
+  font-weight: bold;
+  background-color: #e6f0ff;
+}
+
+.calendar-cell.selected {
+  background-color: #0038F5;
+  color: white;
+}
+
+.calendar-cell.disabled {
+  color: #aaa;
+  pointer-events: none;
+}
+
+.calendar-box {
+  background-color: #D9D9D9;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+/* Price list */
+.price-list-box ul {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 0.95em;
+}
+
+/* Legend */
+.legend-box {
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 0.95em;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  margin-right: 8px;
+}
+
+.legend-color.green {
+  background-color: #1CEC17;
+}
+
+.legend-color.red {
+  background-color: #EC1717;
+}
+
+.legend-color.blue {
+  background-color: #355DEB;
+}
+
+
+
+
+
+
+
+

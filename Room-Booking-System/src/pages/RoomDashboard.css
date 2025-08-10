@@ -1,0 +1,100 @@
+/* RoomDashboard.css */
+.heading {
+  color: #F62525;
+  font-weight: bolder;
+  font-size: 40px;
+  text-decoration: underline;
+  text-underline-offset: 15px;
+  text-decoration-color: #6F7CB2;
+  transform: translateY(-35%);
+  margin-bottom: 3px;
+}
+
+.staff-button {
+  color: white;
+  background-color: #979797;
+  border-color: #979797;
+  box-shadow: 5px 5px 5px #b4b4b4;
+  width: 250px;
+  font-size: 18px;
+  font-family: 'Montserrat';
+  font-weight: 800;
+  border-radius: 0;
+  margin: 0px 20px;
+  line-height: 20px;
+}
+
+.staff-button:hover {
+  background-color: #5a5a5a;
+  color: rgb(196, 196, 196);
+  border-color: #979797;
+}
+
+.room-row {
+  display: table;
+  border-bottom: 2px solid #6F7CB2;
+  margin-bottom: 10px;
+}
+
+.room-col {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.room-name {
+  font-size: xx-large;
+  font-weight: bold;
+  color: #05153E;
+  margin-bottom: 5px;
+}
+
+.room-detail {
+  color: #6F7CB2;
+  font-weight: 600;
+}
+
+.edit-button {
+  font-family: 'Montserrat';
+  font-size: 20px;
+  font-weight: bolder;
+  width: 350px;
+  border-radius: 20px;
+  border-color: whitesmoke;
+  background-color: whitesmoke;
+  color: #6F7CB2;
+  box-shadow: 4px 4px 5px #979797;
+}
+
+.edit-button:hover {
+  background-color: rgb(193, 193, 193);
+  border-color: rgb(193, 193, 193);
+  color: #474f71;
+}
+
+.add-button {
+  font-family: 'Montserrat';
+  font-size: 20px;
+  font-weight: bolder;
+  width: 350px;
+  border-radius: 15px;
+  border-color: whitesmoke;
+  background-color: whitesmoke;
+  color: #6F7CB2;
+  box-shadow: 4px 4px 5px #979797;
+  margin-right: 20px;
+}
+
+.add-button:hover {
+  background-color: rgb(193, 193, 193);
+  border-color: rgb(193, 193, 193);
+  color: #474f71;
+}
+
+/* for the room images in modal*/
+.modal-room-img {
+  width: 100%; 
+  height: 200px; 
+  object-fit: cover; /*all the contents/images that are bigger than 100% and 200px nicely cropped (uniform in size)*/
+  border-radius: 10px; /*rounded corner*/
+}
+

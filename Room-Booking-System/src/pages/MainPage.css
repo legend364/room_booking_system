@@ -1,0 +1,270 @@
+/* Hero (one shared grey rectangle) */
+.hero-box {
+  /* variables so the left arrow knows where the text ends */
+  --hero-text-max: 560px;     /* keep in sync with .hero-left */
+  --hero-text-percent: 48%;   /* keep in sync with .hero-left */
+
+  position: relative;              /* allow layering */
+  background: #d9d9d9;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 360px;
+  height: 360px;                   /* fixed height = original look */
+  display: block;                  /* slideshow is full-background */
+}
+
+.hero-left {
+  position: relative;              /* sits above slides */
+  z-index: 2;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(var(--hero-text-max), var(--hero-text-percent));
+  height: 100%;                    /* match hero-box height */
+}
+
+.heading {
+  color: #0038f5;
+  font-weight: 800;
+  font-size: 3rem;
+  text-shadow: 1px 0 #0038f5;
+  margin: 0 0 5px 0;
+}
+
+.text { color: #091133; margin: 0; }
+.mb-xxl { margin-bottom: 80px; }
+
+.hero-actions { display: flex; gap: 10px; }
+
+/* Transparent hero buttons */
+.hero-actions .btn-primary {
+  background-color: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.hero-actions .btn-primary:hover,
+.hero-actions .btn-primary:active {
+  background-color: #0038f5;
+  border-color: #0038f5;
+  color: #ffffff;
+}
+
+/* Slideshow = full-background layer */
+.hero-right {
+  position: absolute;
+  inset: 0;                        /* fill the entire rectangle */
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;          /* fully fill like the cards */
+  background-position: center;
+  opacity: 0;
+  transition: opacity 800ms ease-in-out;
+  will-change: opacity;
+}
+.hero-slide.is-active { opacity: 1; }
+
+/* Scrim so text stays readable */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(255,255,255,0.86) 0%, rgba(255,255,255,0.55) 35%, rgba(0,0,0,0) 60%),
+    linear-gradient(to top, rgba(0,0,0,0.22) 15%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0) 100%);
+  pointer-events: none;
+}
+
+/* ---- Arrows (siblings of .hero-left/.hero-right) ---- */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.35);
+  color: #fff;
+  display: flex;   
+
+  /* center the arrow in the circle */                
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 5;                      /* above text and slides */
+  transition: background .15s ease, transform .1s ease;
+}
+.hero-arrow:hover { background: rgba(0,0,0,0.5); }
+.hero-arrow:active { transform: translateY(-50%) scale(0.98); }
+
+/* positioning */
+.hero-arrow--right { right: 12px; }
+.hero-arrow--left { left: 12px; }
+
+/* ---- Dots (optional – harmless if JSX doesn’t render them) ---- */
+.hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.6);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.hero-dot.is-active { background: #fff; }
+
+.intro-line {
+  height: 0;
+  color: #505f98;
+  margin-bottom: 0;
+}
+
+/* ---------- Cards (2×2) ---------- */
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+  margin-bottom: 48px;
+}
+
+.room-card {
+  position: relative;
+  min-height: 240px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.room-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.10);
+}
+
+.room-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.58) 25%,
+    rgba(0,0,0,0.18) 65%,
+    rgba(0,0,0,0) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+}
+
+.room-info { padding: 16px; color: #fff; width: 100%; }
+.room-title { font-size: 1.25rem; font-weight: 800; margin: 0 0 6px 0; }
+.room-blurb { margin: 0 0 12px 0; opacity: .95; }
+.room-actions { display: flex; gap: 10px; }
+
+.btn-book { background-color: #0038f5; border-color: #0038f5; }
+.btn-details { border-color: #ffffff; color: #ffffff; }
+.btn-details:hover { background: #ffffff; color: #0038f5; }
+
+/* ---------- Modal ---------- */
+.rb-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: brightness(0.8) blur(1px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1050;
+}
+
+.modal-panel {
+  background: #fff;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 860px;
+  margin: 12px;
+  overflow: auto;        /* scroll inside when content is tall */
+  display: block;
+}
+
+/*modal title*/
+.modal-header { 
+  padding: 40px 24px 28px; 
+  border-bottom: 1px solid #e5e7eb; 
+  align-items: center;
+  justify-content: center; /* center content horizontally */
+  position: relative; /* so close button stays positioned relative to this */
+}
+
+.modal-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  padding: 20px 28px 12px; /* less vertical padding */
+  
+}
+.gallery-img { 
+  background-size: cover; 
+  background-position: center; 
+  aspect-ratio: 16 / 10;       /* consistent image block height */
+  border-radius: 12px;
+}
+
+/* Description row */
+.modal-content { 
+  padding: 16px 28px 20px; 
+  color: #374151; 
+  line-height: 1.5;
+}
+
+
+/* Actions row */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding: 16px 28px 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 992px) {
+  .hero-left {
+    width: 100%;
+    height: auto;
+    min-height: 360px;
+  }
+  .hero-arrow--left  { left: 12px; }  /* on small screens arrows hug edges */
+  .hero-arrow--right { right: 12px; }
+
+  .rooms-grid { grid-template-columns: 1fr; }
+  .modal-panel { border-radius: 10px; }
+  .modal-gallery { 
+    grid-template-columns: 1fr;  
+    gap: 16px;
+    padding: 20px 20px 0;
+  }
+  .modal-header,
+  .modal-content,
+  .modal-actions { padding-left: 20px; padding-right: 20px; }
+}
